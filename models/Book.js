@@ -1,16 +1,16 @@
 /**
  * Dependencies
  */
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
-// Create our Schema. Define the shape of our data to mongoose
+// create our schema
 const bookSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    author: { type: String, required: true },
+    title: { type: String, required: true},
+    author: { type: String, required: true},
     completed: Boolean
 })
 
-// Compose our model from the schema
+// compose our model from the schema
 const Book = mongoose.model("Book", bookSchema)
 
 // Export our model

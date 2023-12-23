@@ -1,78 +1,78 @@
 /**
  * Dependencies
- * 1. Packages
- * 2. Variables - App, PORT
  */
-require("dotenv").config() // Access our .env variables
-require("./config/db.js") // brings in our db connection
-const express = require("express");
-const morgan = require("morgan"); // logging
-const app = express();
-const { PORT = 3013 } = process.env;
+require("dotenv").config() // this is how we make use of our .env variables
+require("./config/db") // bring in our db config
+const express = require("express")
+const morgan = require("morgan") // logger
 
-const Book = require("./models/Book.js")
+const app = express();
+const { PORT = 3013 } = process.env; 
+
+// Bring in our model
+const Book = require("./models/Book")
+
 /**
  * Middleware
  */
-app.use(morgan("dev"))
-app.use(express.urlencoded({extended:true})) // body parser
+// app.use((req, res, next) => {
+//     console.log("this is middleware")
+//     next()
+// })
+app.use(morgan("dev")) // logging
+app.use(express.urlencoded({ extended: true })) // body parser this is how we get access to req.body
 
 /**
- * Routes & Routers
- * 
- * INDUCES 
+ * Routes & Router
  */
 
-// Index
+// Index - GET render all of the books
 app.get("/books", async (req, res) => {
-    // Find the books
+    // find all of the books
     let books = await Book.find({})
+
+    // render all of the books to index.ejs
     res.render("index.ejs", {
         books: books.reverse()
     })
 })
 
-// New
+// New - GET for the form to create a new book
 app.get("/books/new", (req, res) => {
-    // render the form to create a new book
+    // render the create form
     res.render("new.ejs")
 })
-// Delete
 
-// Update
-
-// Create
+// Create - POST
 app.post("/books", async (req, res) => {
-    // Change the completed value of our req.body
-    if (req.body.completed === "on") {
-        // if checked "on"
-        req.body.completed = true
-    } else {
-        // if not checked undefined
-        req.body.completed = false
+    try {
+        if (req.body.completed === "on") {
+            // if checked
+            req.body.completed = true
+        } else {
+            // if not checked
+            req.body.completed = false
+        }
+    
+        let newBook = await Book.create(req.body)
+        res.redirect("/books")
+
+    } catch (err) {
+        res.send(err)
     }
-
-    // Create our new book
-    let newBook = await Book.create(req.body)
-
-    // Redirect back to the index route
-    res.redirect("/books")
 })
 
-// Edit
-
-// Show
+// Show - GET rendering only one book
 app.get("/books/:id", async (req, res) => {
-    // Find the one book
-    let foundBook = await Book.findById(req.params.id)
+    // find a book by _id
+    let foundBook = await Book.findById(req.params.id) // the request params object
 
-    // render the found book
+    // render show.ejs with the foundBook
     res.render("show.ejs", {
         book: foundBook
     })
 })
-
 /**
- * Server Listener
+ * Server listener
  */
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`))
+app.listen(PORT, () => console.log(`Listening to the sounds of ${PORT}`))

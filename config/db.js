@@ -1,15 +1,12 @@
 /**
  * Dependencies
  */
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
-// Connect to our database
+// connected to our database
 mongoose.connect(process.env.DATABASE_URL)
 
-// Define our Database Connection Status
-const db = mongoose.connection
-
-// Callback events
-db.on("error", (err) => console.log(err.message + 'houston we have a problem')) 
-db.on("connected", () => console.log("mongo connected")) 
-db.on("disconnected", () => console.log("mongo disconnected"))
+// Connection status listeners
+mongoose.connection.on("error", (err) => console.log(err.message + "oops there is an error"))
+mongoose.connection.on("connected", () => console.log("connected to mongo"))
+mongoose.connection.on("disconnected", () => console.log("disconnected from mongo"))

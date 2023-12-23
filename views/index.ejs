@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <%- include("./partials/head.ejs")%>
 <body>
-    <h1>BookList</h1>
-    <a href="/books/new">Create a New Book</a>
-    <ul>
-        <% for (let i = 0; i < books.length; ++i) { %>
-            <div>
-                <h1><%= books[i].title %></h1>
-                <a href="/books/<%= books[i]._id%>">More Info</a>
-            </div>
-        <% } %>
-    </ul>
+    <%- include("./partials/nav.ejs") %>
+    <h1>Booklist Index</h1>
+
+    <% for (let i = 0; i < books.length; ++i) { %>
+        <div>
+            <a href="/books/<%= books[i]._id %>">
+                <%= books[i].title %>
+            </a>
+            <p>click title to see more</p>
+        </div>
+    <% } %>
 </body>
 </html>
