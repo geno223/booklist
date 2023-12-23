@@ -1,7 +1,7 @@
 {
   "name": "booklist",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Clone down the repo  - Create a `.env` file with the following variables;",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
@@ -15,7 +15,10 @@
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "exprss": "^0.0.1-security",
+    "method-override": "^3.0.0",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0"
-  }
+  },
+  "devDependencies": {}
 }
